@@ -1,0 +1,27 @@
+name: candidate prop
+
+# postgres_url: jdbc:postgresql://ip-172-31-26-167.ec2.internal:5432/postgres
+# postgres_usr: postgres
+# postgres_psw: superpswd
+# postgres_driver: org.postgresql.Driver
+
+spring:
+  datasource:
+    platform: postgres
+  application:
+    name: 'candidate-config'
+  config:
+    activate:
+      on-profile: default
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+eureka:
+  client:
+    enabled: false
