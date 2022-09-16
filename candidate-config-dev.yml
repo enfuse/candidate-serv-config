@@ -1,0 +1,34 @@
+spring:
+    cloud:
+        config:
+            server:
+                git:
+                    uri: https://github.com/enfuse/candidate-serv-config.git
+                    username: enfuse
+                    password: ${GIT_PASSWORD}
+                actions:
+                  action: "Upload files to Azure Storage"
+                  type: "AZURE_STORAGE"
+                  input_type: "BUILD_ARTIFACTS"
+                  bucket_name: "test-app"
+                  application_name: "candidate-service-dev"
+                  application_display_name: "candidate-service"
+    #     database-name: candidate-dev
+    #     instance-connection-name: candidate-portal-337222:us-central1:candidate-db
+    #   storage:
+    #     project-id: candidate-portal-337222
+    #     bucket-name:
+    #       candidate-files: enfuse-candidate-service-dev
+                    datasource:
+                      username: enfuse-dev
+                      password: enfuse-internal-dev
+                      hikari:
+                        connection-timeout: 20000
+                        minimum-idle: 2
+                        maximum-pool-size: 10
+                        idle-timeout: 2000
+                    security:
+                      oauth2:
+                        resourceserver:
+                          jwt:
+                            # issuer-uri: https://accounts.google.com
