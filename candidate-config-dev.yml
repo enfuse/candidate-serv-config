@@ -1,34 +1,53 @@
 spring:
-    cloud:
-        config:
-            server:
-                git:
-                    uri: https://github.com/enfuse/candidate-serv-config.git
-                    username: enfuse
-                    password: ${GIT_PASSWORD}
-                actions:
-                  action: "Upload files to Azure Storage"
-                  type: "AZURE_STORAGE"
-                  input_type: "BUILD_ARTIFACTS"
-                  bucket_name: "test-app"
-                  application_name: "candidate-service-dev"
-                  application_display_name: "candidate-service"
-    #     database-name: candidate-dev
-    #     instance-connection-name: candidate-portal-337222:us-central1:candidate-db
-    #   storage:
-    #     project-id: candidate-portal-337222
-    #     bucket-name:
-    #       candidate-files: enfuse-candidate-service-dev
-                    datasource:
-                      username: enfuse-dev
-                      password: enfuse-internal-dev
-                      hikari:
-                        connection-timeout: 20000
-                        minimum-idle: 2
-                        maximum-pool-size: 10
-                        idle-timeout: 2000
-                    security:
-                      oauth2:
-                        resourceserver:
-                          jwt:
-                            # issuer-uri: https://accounts.google.com
+  cloud:
+    config:
+      enabled: false
+    gcp:
+      core:
+        enabled: false
+      sql:
+        enabled: false
+      storage:
+        enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+    azure:
+      keyvault:
+        secret:
+          enabled: true
+          property-source-enabled: true
+          property-sources[0]:
+            endpoint: https://contosokv.vault.azure.net/
+            profile:
+              tenant-id: <your tenant ID>
+            credential:
+              client-id: <your client ID>
+              client-secret: <your client key>
+
+      storage:
+        blob:
+          enabled: true
+          account-name: ${CANDIDATE-SERVICE-BLOB-STORAGE-NAME}
+          account-key: ${CANDIDATE-SERVICE-BLOB-STORAGE-KEY}
+
+  datasource:
+    url: jdbc:postgresql://${CANDIDATE-SERVICE-POSTGRES-SERVER-NAME}:5432/${DEV-CANDIDATE-SERVICE-DATABASE-NAME}?sslmode=require
+    username: ${DEV-CANDIDATE-SERVICE-POSTGRES-LOGIN-NAME}
+    password: ${DEV-CANDIDATE-SERVICE-POSTGRES-LOGIN-PASSWORD}
+
+io.enfuse.internal:
+  azure:
+    container: ${DEV-CANDIDATE-SERVICE-AZURE-BLOB-CONTAINER-NAME}
+  candidate:
+    security:
+      google:
+        jwt-claims:
+          issuers:
+            - https://accounts.google.com
+            - accounts.google.com
+          audience: 175350329595-ov2d9sikidnelpauuv1gh89vbi5gu5k4.apps.googleusercontent.com
+          hosted-domain: enfuse.io
+
