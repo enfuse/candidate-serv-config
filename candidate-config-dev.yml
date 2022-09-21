@@ -34,7 +34,7 @@ spring:
           account-key: ${CANDIDATE-SERVICE-BLOB-STORAGE-KEY}
 
   datasource:
-    url: jdbc:postgresql://${CANDIDATE-SERVICE-POSTGRES-SERVER-NAME}:5432/${DEV-CANDIDATE-SERVICE-DATABASE-NAME}?sslmode=require
+    url: jdbc:postgresql://testttttt:5432/${DEV-CANDIDATE-SERVICE-DATABASE-NAME}?sslmode=require
     username: ${DEV-CANDIDATE-SERVICE-POSTGRES-LOGIN-NAME}
     password: ${DEV-CANDIDATE-SERVICE-POSTGRES-LOGIN-PASSWORD}
 
